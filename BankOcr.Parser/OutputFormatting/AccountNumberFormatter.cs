@@ -10,7 +10,11 @@ public static class AccountNumberFormatter
                 invLen => invLen.RecognitionResults.FormatAccountDigits() + " LEN",
                 invChk => invChk.RecognitionResults.FormatAccountDigits() + " ERR",
                 unkChars => unkChars.RecognitionResults.FormatAccountDigits() + " ILL",
-                ambNumbers => ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits() 
+                ambNumbers => 
+                    ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits() + 
+                        (ambNumbers.ValidCandidates.Length > 1 ? 
+                        $" AMB [{string.Join(",", ambNumbers.ValidCandidates.Skip(1).Select(c => $"'{c.RecognitionResults.FormatAccountDigits()}'"))}]" : 
+                        "") 
             ));
     }
 

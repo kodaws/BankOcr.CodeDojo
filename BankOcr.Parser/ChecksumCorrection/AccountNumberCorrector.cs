@@ -6,7 +6,7 @@ namespace BankOcr.Parser.ChecksumCorrection;
 
 public class AccountNumberCorrector
 {
-    private ILookup<int, DigitPrototype> _prototypesByNumElems;
+    private readonly ILookup<int, DigitPrototype> _prototypesByNumElems;
 
     public AccountNumberCorrector(IEnumerable<DigitPrototype> prototypes)
     {
@@ -19,18 +19,29 @@ public class AccountNumberCorrector
             _ => invalidAccountNumber, //can't fix incorrect number of chars, just pass it back
             TryCorrectInvalidChecksum,
             TryCorrectUnrecognizedChars,
-            _ => invalidAccountNumber);
+            _ => invalidAccountNumber);//TODO: fix odd entry
     }
 
     private AccountNumber TryCorrectInvalidChecksum(InvalidChecksum invalidChecksum)
     {
-        return null;
+        var characterWithPosition =
+            invalidChecksum.RecognitionResults.Select((c, i) => new CharacterWithPosition(i, c))//TODO unify character vs digit naming
+                .ToArray();
+
+        var validCandidates = Enumerable.Range(0, 9)
+            .Select(p => TryCorrectSingleDigit(characterWithPosition, p))
+            .SelectMany(c => c)
+            .ToArray();
+
+        return new InvalidAccountNumber(new AmbiguousAccountNumber(validCandidates));
     }
+
+    private record CharacterWithPosition(int Position, RecognitionResult Digit);
 
     private AccountNumber TryCorrectUnrecognizedChars(UnrecognizedCharacters unrecognizedCharacters)
     {
         var characterWithPosition =
-            unrecognizedCharacters.RecognitionResults.Select((c, i) => new {Position = i, Digit = c})
+            unrecognizedCharacters.RecognitionResults.Select((c, i) => new CharacterWithPosition(i, c))//TODO unify character vs digit naming
                 .ToArray();
 
         var charactersToFix = characterWithPosition.Where(c => c.Digit.IsT1).ToArray();
@@ -40,33 +51,38 @@ public class AccountNumberCorrector
 
         var fixableChar = charactersToFix.First();
 
+        return new InvalidAccountNumber(new AmbiguousAccountNumber(TryCorrectSingleDigit(characterWithPosition, fixableChar.Position)));
+    }
+
+    private ValidAccountNumber[] TryCorrectSingleDigit(CharacterWithPosition[] digits, int position)
+    {
         var checksumFromRecognizedChars =
-            characterWithPosition
-                .Except(charactersToFix)
+            digits
+                .Where(cwp => cwp.Position != position)
                 .Select(c => c.Digit.AsT0.DigitPrototype.Digit * (9 - c.Position))
                 .Sum();
 
-        var fixableCharNumElems = fixableChar.Digit.AsT1.InputGlyph.Count(c => !char.IsWhiteSpace(c));
+        var fixableCharNumElems = digits[position].Digit.Match(rg => rg.DigitPrototype.NumElems, ug => ug.InputGlyph.Count(c => !char.IsWhiteSpace(c)));
         var replacementCandidates =
             _prototypesByNumElems[fixableCharNumElems - 1]
                 .Union(_prototypesByNumElems[fixableCharNumElems + 1]);
 
-        var head = unrecognizedCharacters.RecognitionResults.Take(fixableChar.Position).ToArray();
-        var tail = unrecognizedCharacters.RecognitionResults.Skip(fixableChar.Position + 1).ToArray();
+        var head = digits.Take(position).ToArray();
+        var tail = digits.Skip(position + 1).ToArray();
         var candidateAccounts =
             replacementCandidates
                 .Select(cand => new
                 {
                     Digit = cand.Digit,
-                    VersionChecksum = checksumFromRecognizedChars + (9 - fixableChar.Position) * cand.Digit
+                    VersionChecksum = checksumFromRecognizedChars + (9 - position) * cand.Digit
                 })
                 .Where(ver => ver.VersionChecksum % 11 == 0)
                 .Select(ver =>
-                    head
-                        .Append(new RecognizedGlyph(new DigitPrototype(ver.Digit, "", 0)))
-                        .Concat(tail) //tail
+                        head
+                            .Append(new CharacterWithPosition(position, new RecognizedGlyph(new DigitPrototype(ver.Digit, "", 0))))
+                            .Concat(tail) //tail
                 ).ToArray();
-        
-        return new InvalidAccountNumber(new AmbiguousAccountNumber(candidateAccounts.Select(ca => new ValidAccountNumber(ca.ToArray())).ToArray()));
+
+        return candidateAccounts.Select(ca => new ValidAccountNumber(ca.Select(c => c.Digit).ToArray())).ToArray();
     }
 }
