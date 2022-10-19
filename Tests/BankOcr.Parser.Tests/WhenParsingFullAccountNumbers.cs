@@ -54,7 +54,10 @@ public class WhenParsingFullAccountNumbers : WhenUsingRecognizer
     public void ShouldParseTheNumber(string input, string expectedResult)
     {
         var digits = input.EnumerateGlyphs();
-        var accountNumber = digits.Select(_recognizer.Recognize);
+        var accountNumber = digits
+            .Select(_recognizer.Recognize)
+            .Select(d => d.AsT0);
+        
         var accountNumText = accountNumber.Aggregate(new StringBuilder(), (state, d) =>
         {
             state.Append(d);

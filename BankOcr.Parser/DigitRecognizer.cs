@@ -1,4 +1,5 @@
 ﻿namespace BankOcr.Parser;
+using OneOf;
 
 public class DigitRecognizer
 {
@@ -9,9 +10,10 @@ public class DigitRecognizer
         _prototypes = prototypes.ToDictionary(k => k.Glyph, v => v);
     }
 
-    public int Recognize(string glyph)
+    public OneOf<int, UnrecognizedGlyph> Recognize(string glyph)
     {
-        //TODO: handle missing values
-        return _prototypes[glyph].Digit;
+        return _prototypes.ContainsKey(glyph) ? 
+            _prototypes[glyph].Digit : 
+            new UnrecognizedGlyph(glyph);
     }
 }

@@ -50,6 +50,6 @@ public class WhenParsingSingleDigits : WhenUsingRecognizer
     {
         var prototypes = DigitPrototypeFactory.BuildPrototypes().ToArray();
         var matchingDigit = _recognizer.Recognize(input.ReplaceLineEndings(""));
-        Assert.AreEqual(expectedDigit, matchingDigit);
+        Assert.AreEqual(expectedDigit, matchingDigit.AsT0);
     }
 }
