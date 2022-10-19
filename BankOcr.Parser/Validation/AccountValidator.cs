@@ -4,13 +4,13 @@ public static class AccountNumberValidator
 {
     private const int AccountNumberLength = 9;
     
-    public static AccountValidationResult Validate(Recognition.RecognitionResult[] accountDigits)
+    public static AccountNumber Validate(Recognition.RecognitionResult[] accountDigits)
     {
         if (accountDigits.Length != AccountNumberLength)
-            return new InvalidAccountNumberLength(accountDigits);
+            return new InvalidAccountNumber(new InvalidAccountNumberLength(accountDigits));
 
         if (accountDigits.Any(g => g.IsT1))
-            return new UnrecognizedCharacters(accountDigits);
+            return new InvalidAccountNumber(new UnrecognizedCharacters(accountDigits));
         
         var checksum =
             accountDigits
@@ -20,7 +20,7 @@ public static class AccountNumberValidator
                         _ => 0)).Sum();
 
         if (checksum % 11 != 0)
-            return new InvalidChecksum(accountDigits);
+            return new InvalidAccountNumber(new InvalidChecksum(accountDigits));
 
         return new ValidAccountNumber(accountDigits);
     }

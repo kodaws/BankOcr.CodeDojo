@@ -1,4 +1,5 @@
-﻿using BankOcr.Parser.Recognition;
+﻿using BankOcr.Parser.Models;
+using BankOcr.Parser.Recognition;
 using BankOcr.Parser.TextParsing;
 
 namespace BankOcr.Parser.Initialization;

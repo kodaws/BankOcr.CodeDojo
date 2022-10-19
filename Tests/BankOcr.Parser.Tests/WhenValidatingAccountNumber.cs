@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using BankOcr.Parser.Models;
 using BankOcr.Parser.Recognition;
 using BankOcr.Parser.Validation;
 using NUnit.Framework;

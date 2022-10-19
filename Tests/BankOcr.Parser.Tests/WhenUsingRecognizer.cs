@@ -1,4 +1,6 @@
-﻿using BankOcr.Parser.Initialization;
+﻿using System.Linq;
+using BankOcr.Parser.Initialization;
+using BankOcr.Parser.Models;
 using BankOcr.Parser.Recognition;
 using NUnit.Framework;
 
@@ -9,12 +11,13 @@ public abstract class WhenUsingRecognizer
 #pragma warning disable CS8618
     //initialized by NUnit at runtime, lacks proper support for static code inspection
     protected DigitRecognizer Recognizer;
+    protected DigitPrototype[] Prototypes;
 #pragma warning restore CS8618
     
     [OneTimeSetUp]
     public void SetUp()
     {
-        var prototypes = DigitPrototypeFactory.BuildPrototypes();
-        Recognizer = new DigitRecognizer(prototypes);
+        Prototypes = DigitPrototypeFactory.BuildPrototypes().ToArray();
+        Recognizer = new DigitRecognizer(Prototypes);
     }    
 }

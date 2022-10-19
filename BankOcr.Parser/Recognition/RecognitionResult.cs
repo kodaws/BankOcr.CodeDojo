@@ -1,4 +1,5 @@
-﻿using OneOf;
+﻿using BankOcr.Parser.Models;
+using OneOf;
 
 namespace BankOcr.Parser.Recognition;
 

@@ -1,4 +1,6 @@
-﻿namespace BankOcr.Parser.Recognition;
+﻿using BankOcr.Parser.Models;
+
+namespace BankOcr.Parser.Recognition;
 
 public class DigitRecognizer
 {

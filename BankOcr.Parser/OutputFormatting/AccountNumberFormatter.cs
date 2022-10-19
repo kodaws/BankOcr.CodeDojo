@@ -1,14 +1,17 @@
-﻿namespace BankOcr.Parser;
+﻿namespace BankOcr.Parser.OutputFormatting;
 
 public static class AccountNumberFormatter
 {
-    public static string Format(Validation.AccountValidationResult validatedAccount)
+    public static string Format(Validation.AccountNumber validatedAccount)
     {
         return validatedAccount.Match(
-            van => van.RecognizedDigits.FormatAccountDigits(),
-            invLen => invLen.RecognizedDigits.FormatAccountDigits() + " LEN",
-            invChk => invChk.RecognizedDigits.FormatAccountDigits() + " ERR",
-            unkChars => unkChars.RecognizedDigits.FormatAccountDigits() + " ILL");
+            van => van.RecognitionResults.FormatAccountDigits(),
+            inv => inv.Match(
+                invLen => invLen.RecognitionResults.FormatAccountDigits() + " LEN",
+                invChk => invChk.RecognitionResults.FormatAccountDigits() + " ERR",
+                unkChars => unkChars.RecognitionResults.FormatAccountDigits() + " ILL",
+                ambNumbers => ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits() 
+            ));
     }
 
     private static string FormatAccountDigits(this IEnumerable<Recognition.RecognitionResult> digits)

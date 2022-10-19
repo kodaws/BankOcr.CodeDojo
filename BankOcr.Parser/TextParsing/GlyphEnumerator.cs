@@ -13,7 +13,7 @@ public static class GlyphEnumerator
         
         Debug.Assert(length % NumCharsPerGlyph == 0); //TODO: improve with result?
         var numGlyphs = length / NumCharsPerGlyph;
-
+        //TODO: maybe chunk method will work?
         //TODO: improve with explicit key selector
         return inputSanitized
             .Select((c, i) => new { Character = c, Position = i })
