@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using BankOcr.Parser.TextParsing;
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;

@@ -2,7 +2,7 @@
 
 public static class AccountNumberFormatter
 {
-    public static string Format(AccountValidationResult validatedAccount)
+    public static string Format(Validation.AccountValidationResult validatedAccount)
     {
         return validatedAccount.Match(
             van => van.RecognizedDigits.FormatAccountDigits(),
@@ -11,7 +11,7 @@ public static class AccountNumberFormatter
             unkChars => unkChars.RecognizedDigits.FormatAccountDigits() + " ILL");
     }
 
-    private static string FormatAccountDigits(this IEnumerable<RecognitionResult> digits)
+    private static string FormatAccountDigits(this IEnumerable<Recognition.RecognitionResult> digits)
     {
         return string.Join("",
             digits.Select(g =>

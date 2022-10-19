@@ -15,4 +15,13 @@
       <Compile Remove="UnrecognizedGlyph.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ChecksumCorrection" />
+      <Folder Include="Initialization" />
+      <Folder Include="OutputFormatting" />
+      <Folder Include="Recognition" />
+      <Folder Include="TextParsing" />
+      <Folder Include="Validation" />
+    </ItemGroup>
+
 </Project>

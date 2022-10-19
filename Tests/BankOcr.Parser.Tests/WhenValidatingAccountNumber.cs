@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using BankOcr.Parser.Recognition;
+using BankOcr.Parser.Validation;
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;
@@ -15,7 +17,7 @@ public class WhenValidatingAccountNumber
     public void ShouldDetectInvalidNumbers(string accountNumber, bool isValid)
     {
         var accNumber = accountNumber.Select(d => int.Parse(d.ToString()))
-            .Select(d => (RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "", 0))) //TODO: refactor
+            .Select(d => (Recognition.RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "", 0))) //TODO: refactor
             .ToArray();
         var validationResult = AccountNumberValidator.Validate(accNumber);
         Assert.AreEqual(isValid, validationResult.IsT0);

@@ -1,4 +1,4 @@
-﻿namespace BankOcr.Parser;
+﻿namespace BankOcr.Parser.Recognition;
 
 public class DigitRecognizer
 {
@@ -6,7 +6,7 @@ public class DigitRecognizer
 
     public DigitRecognizer(IEnumerable<DigitPrototype> prototypes)
     {
-        _prototypes = prototypes.ToDictionary(k => k.Glyph, v => v);
+        _prototypes = prototypes.ToDictionary(k => k.Glyph, v => v); //TODO: compare performance with ToImmutableDictionary
     }
 
     public RecognitionResult Recognize(string glyph)

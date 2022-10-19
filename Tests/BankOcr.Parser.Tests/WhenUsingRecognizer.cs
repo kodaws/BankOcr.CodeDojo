@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using BankOcr.Parser.Initialization;
+using BankOcr.Parser.Recognition;
+using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;
 

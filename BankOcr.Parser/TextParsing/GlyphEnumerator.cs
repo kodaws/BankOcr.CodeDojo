@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace BankOcr.Parser;
+namespace BankOcr.Parser.TextParsing;
 
 public static class GlyphEnumerator
 {

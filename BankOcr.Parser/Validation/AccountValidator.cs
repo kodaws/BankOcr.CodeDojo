@@ -1,10 +1,10 @@
-﻿namespace BankOcr.Parser;
+﻿namespace BankOcr.Parser.Validation;
 
 public static class AccountNumberValidator
 {
     private const int AccountNumberLength = 9;
     
-    public static AccountValidationResult Validate(RecognitionResult[] accountDigits)
+    public static AccountValidationResult Validate(Recognition.RecognitionResult[] accountDigits)
     {
         if (accountDigits.Length != AccountNumberLength)
             return new InvalidAccountNumberLength(accountDigits);

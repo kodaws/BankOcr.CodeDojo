@@ -1,4 +1,7 @@
-﻿namespace BankOcr.Parser;
+﻿using BankOcr.Parser.Recognition;
+using BankOcr.Parser.TextParsing;
+
+namespace BankOcr.Parser.Initialization;
 
 public static class DigitPrototypeFactory
 {

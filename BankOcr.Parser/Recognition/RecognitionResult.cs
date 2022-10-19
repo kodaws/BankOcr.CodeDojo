@@ -1,6 +1,6 @@
 ﻿using OneOf;
 
-namespace BankOcr.Parser;
+namespace BankOcr.Parser.Recognition;
 
 public record RecognizedGlyph(DigitPrototype DigitPrototype);
 public record UnrecognizedGlyph(string InputGlyph);
