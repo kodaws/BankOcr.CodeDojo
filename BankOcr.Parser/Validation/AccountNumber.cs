@@ -11,7 +11,7 @@ public record InvalidAccountNumberLength(RecognitionResult[] RecognitionResults)
 
 public record ValidAccountNumber(RecognitionResult[] RecognitionResults);
 
-public record AmbiguousAccountNumber(ValidAccountNumber[] ValidCandidates);
+public record AmbiguousAccountNumber(InvalidAccountNumber OriginalNumber, ValidAccountNumber[] ValidCandidates);
 
 [GenerateOneOf]
 public partial class InvalidAccountNumber : OneOfBase<InvalidAccountNumberLength, InvalidChecksum,

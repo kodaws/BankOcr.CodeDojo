@@ -1,4 +1,6 @@
-﻿namespace BankOcr.Parser.OutputFormatting;
+﻿using BankOcr.Parser.Recognition;
+
+namespace BankOcr.Parser.OutputFormatting;
 
 public static class AccountNumberFormatter
 {
@@ -10,12 +12,15 @@ public static class AccountNumberFormatter
                 invLen => invLen.RecognitionResults.FormatAccountDigits() + " LEN",
                 invChk => invChk.RecognitionResults.FormatAccountDigits() + " ERR",
                 unkChars => unkChars.RecognitionResults.FormatAccountDigits() + " ILL",
-                ambNumbers => 
-                    ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits() + 
-                        (ambNumbers.ValidCandidates.Length > 1 ? 
-                        $" AMB [{string.Join(",", ambNumbers.ValidCandidates.Skip(1).Select(c => $"'{c.RecognitionResults.FormatAccountDigits()}'"))}]" : 
-                        "") 
-            ));
+                ambNumbers =>
+                    (ambNumbers.ValidCandidates.Length == 1) ?
+                        (ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits()) :
+                        (ambNumbers.OriginalNumber.Match(
+                                invLen => invLen.RecognitionResults,
+                                invChecksum => invChecksum.RecognitionResults, 
+                                unrecChars => unrecChars.RecognitionResults, 
+                                amb => Array.Empty<RecognitionResult>()).FormatAccountDigits() + 
+                                $" AMB [{string.Join(", ", ambNumbers.ValidCandidates.Select(c => $"'{c.RecognitionResults.FormatAccountDigits()}'"))}]"))); 
     }
 
     private static string FormatAccountDigits(this IEnumerable<Recognition.RecognitionResult> digits)

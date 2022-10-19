@@ -10,7 +10,7 @@ namespace BankOcr.Parser.Tests;
 public class WhenCorrectingInvalidNumbers : WhenUsingRecognizer
 {
     [TestCase(@"
-
+                           
   |  |  |  |  |  |  |  |  |
   |  |  |  |  |  |  |  |  |", "711111111")]
     [TestCase(@"

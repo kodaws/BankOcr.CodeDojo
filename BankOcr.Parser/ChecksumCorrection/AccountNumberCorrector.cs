@@ -1,4 +1,5 @@
-﻿using BankOcr.Parser.Models;
+﻿using System.Text;
+using BankOcr.Parser.Models;
 using BankOcr.Parser.Recognition;
 using BankOcr.Parser.Validation;
 
@@ -31,9 +32,19 @@ public class AccountNumberCorrector
         var validCandidates = Enumerable.Range(0, 9)
             .Select(p => TryCorrectSingleDigit(characterWithPosition, p))
             .SelectMany(c => c)
+            .OrderBy(ord =>
+            {
+                var result = new StringBuilder();
+                foreach (var item in ord.RecognitionResults)
+                {
+                    result.Append(item.AsT0.DigitPrototype.Digit);
+                }
+
+                return result.ToString();
+            })
             .ToArray();
 
-        return new InvalidAccountNumber(new AmbiguousAccountNumber(validCandidates));
+        return new InvalidAccountNumber(new AmbiguousAccountNumber(invalidChecksum, validCandidates));
     }
 
     private record CharacterWithPosition(int Position, RecognitionResult Digit);
@@ -51,7 +62,7 @@ public class AccountNumberCorrector
 
         var fixableChar = charactersToFix.First();
 
-        return new InvalidAccountNumber(new AmbiguousAccountNumber(TryCorrectSingleDigit(characterWithPosition, fixableChar.Position)));
+        return new InvalidAccountNumber(new AmbiguousAccountNumber(unrecognizedCharacters, TryCorrectSingleDigit(characterWithPosition, fixableChar.Position)));
     }
 
     private ValidAccountNumber[] TryCorrectSingleDigit(CharacterWithPosition[] digits, int position)
@@ -63,9 +74,12 @@ public class AccountNumberCorrector
                 .Sum();
 
         var fixableCharNumElems = digits[position].Digit.Match(rg => rg.DigitPrototype.NumElems, ug => ug.InputGlyph.Count(c => !char.IsWhiteSpace(c)));
+        var fixableCharGlyph = digits[position].Digit.Match(rg => rg.DigitPrototype.Glyph, ug => ug.InputGlyph);
+
         var replacementCandidates =
             _prototypesByNumElems[fixableCharNumElems - 1]
-                .Union(_prototypesByNumElems[fixableCharNumElems + 1]);
+                .Union(_prototypesByNumElems[fixableCharNumElems + 1])
+                .Where(cand => cand.Glyph.Zip(fixableCharGlyph).Count(match => match.First != match.Second) == 1);
 
         var head = digits.Take(position).ToArray();
         var tail = digits.Skip(position + 1).ToArray();
@@ -81,7 +95,8 @@ public class AccountNumberCorrector
                         head
                             .Append(new CharacterWithPosition(position, new RecognizedGlyph(new DigitPrototype(ver.Digit, "", 0))))
                             .Concat(tail) //tail
-                ).ToArray();
+                )
+                .ToArray();
 
         return candidateAccounts.Select(ca => new ValidAccountNumber(ca.Select(c => c.Digit).ToArray())).ToArray();
     }
