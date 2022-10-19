@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace BankOcr.Parser.Tests;
 
 [TestFixture]
-public class WhenValidatingAccountNumber : WhenUsingRecognizer
+public class WhenValidatingAccountNumber
 {
     [TestCase("711111111", true)]
     [TestCase("123456789", true)]
@@ -15,7 +15,7 @@ public class WhenValidatingAccountNumber : WhenUsingRecognizer
     public void ShouldDetectInvalidNumbers(string accountNumber, bool isValid)
     {
         var accNumber = accountNumber.Select(d => int.Parse(d.ToString()))
-            .Select(d => (RecognitionResult)(new RecognizedGlyph(new DigitPrototype(d, "", 0)))) //TODO: refactor
+            .Select(d => (RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "", 0))) //TODO: refactor
             .ToArray();
         var validationResult = AccountNumberValidator.Validate(accNumber);
         Assert.AreEqual(isValid, validationResult.IsT0);
