@@ -48,8 +48,7 @@ public class WhenParsingSingleDigits : WhenUsingRecognizer
  _|")]
     public void ShouldRecognizeDigit(int expectedDigit, string input)
     {
-        var prototypes = DigitPrototypeFactory.BuildPrototypes().ToArray();
         var matchingDigit = _recognizer.Recognize(input.ReplaceLineEndings(""));
-        Assert.AreEqual(expectedDigit, matchingDigit.AsT0);
+        Assert.AreEqual(expectedDigit, matchingDigit.AsT0.DigitPrototype.Digit);
     }
 }

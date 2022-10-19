@@ -10,4 +10,8 @@
       <PackageReference Include="OneOf" Version="3.0.223" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="UnrecognizedGlyph.cs" />
+    </ItemGroup>
+
 </Project>

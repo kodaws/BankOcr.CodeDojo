@@ -10,10 +10,10 @@ public class DigitRecognizer
         _prototypes = prototypes.ToDictionary(k => k.Glyph, v => v);
     }
 
-    public OneOf<int, UnrecognizedGlyph> Recognize(string glyph)
+    public OneOf<RecognizedGlyph, UnrecognizedGlyph> Recognize(string glyph)
     {
         return _prototypes.ContainsKey(glyph) ? 
-            _prototypes[glyph].Digit : 
+            new RecognizedGlyph(_prototypes[glyph], glyph): 
             new UnrecognizedGlyph(glyph);
     }
 }
