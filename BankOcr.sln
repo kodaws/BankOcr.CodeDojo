@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Cli", "BankOcr.Cli\BankOcr.Cli.csproj", "{48708709-CC8E-4305-AE94-4585B54EDC00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Parser", "BankOcr.Parser\BankOcr.Parser.csproj", "{80D1EA2F-9C80-4C8A-87E7-934F9A2E8CA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D8AE5CC4-E97B-4A98-A61E-80A0925A8C8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Parser.Tests", "Tests\BankOcr.Parser.Tests\BankOcr.Parser.Tests.csproj", "{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48708709-CC8E-4305-AE94-4585B54EDC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48708709-CC8E-4305-AE94-4585B54EDC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48708709-CC8E-4305-AE94-4585B54EDC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48708709-CC8E-4305-AE94-4585B54EDC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D1EA2F-9C80-4C8A-87E7-934F9A2E8CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D1EA2F-9C80-4C8A-87E7-934F9A2E8CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D1EA2F-9C80-4C8A-87E7-934F9A2E8CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D1EA2F-9C80-4C8A-87E7-934F9A2E8CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal
