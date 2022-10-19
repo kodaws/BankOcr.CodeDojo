@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace BankOcr.Parser.Tests;
 
 [TestFixture]
-public class WhenParsingFullAccountNumbers
+public class WhenParsingFullAccountNumbers : WhenUsingRecognizer
 {
     [TestCase(@"
  _  _  _  _  _  _  _  _  _ 
@@ -51,15 +51,13 @@ public class WhenParsingFullAccountNumbers
     _  _     _  _  _  _  _ 
   | _| _||_||_ |_   ||_||_|
   ||_  _|  | _||_|  ||_| _|", "123456789")]
-    
     public void ShouldParseTheNumber(string input, string expectedResult)
     {
-        var prototypes = DigitPrototypeFactory.BuildPrototypes().ToArray();
         var digits = input.EnumerateGlyphs();
-        var accountNumber = digits.Select(d => prototypes.First(p => d == p.Glyph));
+        var accountNumber = digits.Select(_recognizer.Recognize);
         var accountNumText = accountNumber.Aggregate(new StringBuilder(), (state, d) =>
         {
-            state.Append(d.Digit.ToString());
+            state.Append(d);
             return state;
         });
         Assert.AreEqual(expectedResult, accountNumText.ToString());

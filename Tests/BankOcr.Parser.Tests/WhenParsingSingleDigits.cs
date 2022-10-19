@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace BankOcr.Parser.Tests;
 
 [TestFixture]
-public class WhenParsingSingleDigits
+public class WhenParsingSingleDigits : WhenUsingRecognizer
 {
     [TestCase(0, @"
  _ 
@@ -49,7 +49,7 @@ public class WhenParsingSingleDigits
     public void ShouldRecognizeDigit(int expectedDigit, string input)
     {
         var prototypes = DigitPrototypeFactory.BuildPrototypes().ToArray();
-        var matchingDigit = prototypes.First(d => d.Glyph == input.ReplaceLineEndings(""));
-        Assert.AreEqual(expectedDigit, matchingDigit.Digit);
+        var matchingDigit = _recognizer.Recognize(input.ReplaceLineEndings(""));
+        Assert.AreEqual(expectedDigit, matchingDigit);
     }
 }
