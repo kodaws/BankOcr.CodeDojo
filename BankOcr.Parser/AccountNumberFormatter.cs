@@ -2,7 +2,7 @@
 
 public static class AccountNumberFormatter
 {
-    public static string Format(AccountNumberValidator.AccountValidationResult validatedAccount)
+    public static string Format(AccountValidationResult validatedAccount)
     {
         return validatedAccount.Match(
             van => van.RecognizedDigits.FormatAccountDigits(),
