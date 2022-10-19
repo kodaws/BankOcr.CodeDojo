@@ -8,8 +8,7 @@ public static class AccountNumberFormatter
             van => van.RecognizedDigits.FormatAccountDigits(),
             invLen => invLen.RecognizedDigits.FormatAccountDigits() + " LEN",
             invChk => invChk.RecognizedDigits.FormatAccountDigits() + " ERR",
-            unrecChars => unrecChars.RecognizedDigits.FormatAccountDigits() + " ILL",
-            ambNum => " TODO");
+            unkChars => unkChars.RecognizedDigits.FormatAccountDigits() + " ILL");
     }
 
     private static string FormatAccountDigits(this IEnumerable<RecognitionResult> digits)

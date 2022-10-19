@@ -22,7 +22,7 @@ public class WhenFormattingResults : WhenUsingRecognizer
     {
         var digits = input.EnumerateGlyphs();
         var accountNumber = digits
-            .Select(_recognizer.Recognize)
+            .Select(Recognizer.Recognize)
             .ToArray();
         
         var validationResult = AccountNumberValidator.Validate(accountNumber);

@@ -4,12 +4,15 @@ namespace BankOcr.Parser.Tests;
 
 public abstract class WhenUsingRecognizer
 {
-    protected DigitRecognizer _recognizer;
+#pragma warning disable CS8618
+    //initialized by NUnit at runtime, lacks proper support for static code inspection
+    protected DigitRecognizer Recognizer;
+#pragma warning restore CS8618
     
     [OneTimeSetUp]
     public void SetUp()
     {
         var prototypes = DigitPrototypeFactory.BuildPrototypes();
-        _recognizer = new DigitRecognizer(prototypes);
+        Recognizer = new DigitRecognizer(prototypes);
     }    
 }

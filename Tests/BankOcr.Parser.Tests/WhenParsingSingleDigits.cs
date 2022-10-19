@@ -47,7 +47,7 @@ public class WhenParsingSingleDigits : WhenUsingRecognizer
  _|")]
     public void ShouldRecognizeDigit(int expectedDigit, string input)
     {
-        var matchingDigit = _recognizer.Recognize(input.ReplaceLineEndings(""));
+        var matchingDigit = Recognizer.Recognize(input.ReplaceLineEndings(""));
         Assert.AreEqual(expectedDigit, matchingDigit.AsT0.DigitPrototype.Digit);
     }
 }

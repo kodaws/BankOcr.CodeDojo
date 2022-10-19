@@ -14,8 +14,8 @@ public static class AccountNumberValidator
         
         var checksum =
             accountDigits
-                .Select((g, i) =>
-                    g.Match(
+                .Select((d, i) =>
+                    d.Match(
                         rg => rg.DigitPrototype.Digit * (9 - i),
                         _ => 0)).Sum();
 

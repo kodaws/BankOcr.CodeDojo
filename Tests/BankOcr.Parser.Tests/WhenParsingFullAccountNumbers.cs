@@ -55,7 +55,7 @@ public class WhenParsingFullAccountNumbers : WhenUsingRecognizer
     {
         var digits = input.EnumerateGlyphs();
         var accountNumber = digits
-            .Select(_recognizer.Recognize)
+            .Select(Recognizer.Recognize)
             .Select(d => d.AsT0.DigitPrototype.Digit);
         
         var accountNumText = accountNumber.Aggregate(new StringBuilder(), (state, d) =>
