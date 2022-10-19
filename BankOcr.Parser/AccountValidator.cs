@@ -2,7 +2,7 @@
 
 public static class AccountNumberValidator
 {
-    const int AccountNumberLength = 9;
+    private const int AccountNumberLength = 9;
     
     public static AccountValidationResult Validate(RecognitionResult[] accountDigits)
     {
@@ -17,7 +17,7 @@ public static class AccountNumberValidator
                 .Select((g, i) =>
                     g.Match(
                         rg => rg.DigitPrototype.Digit * (9 - i),
-                        ug => 0)).Sum();
+                        _ => 0)).Sum();
 
         if (checksum % 11 != 0)
             return new InvalidChecksum(accountDigits);
@@ -25,4 +25,3 @@ public static class AccountNumberValidator
         return new ValidAccountNumber(accountDigits);
     }
 }
-

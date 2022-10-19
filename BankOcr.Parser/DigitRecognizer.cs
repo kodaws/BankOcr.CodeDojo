@@ -1,5 +1,4 @@
 ﻿namespace BankOcr.Parser;
-using OneOf;
 
 public class DigitRecognizer
 {

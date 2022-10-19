@@ -11,9 +11,6 @@ public static class DigitPrototypeFactory
 |_|  ||_  _|  | _||_|  ||_| _|"
                 .EnumerateGlyphs()
                 .Select((g, i) =>
-                    new DigitPrototype(
-                        Digit: i,
-                        Glyph: g,
-                        NumElems: g.Count(c => !char.IsWhiteSpace(c))));
+                    new DigitPrototype(i, g, g.Count(c => !char.IsWhiteSpace(c))));
     }
 }

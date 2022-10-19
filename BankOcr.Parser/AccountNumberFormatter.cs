@@ -12,12 +12,12 @@ public static class AccountNumberFormatter
             ambNum => " TODO");
     }
 
-    private static string FormatAccountDigits(this RecognitionResult[] digits)
+    private static string FormatAccountDigits(this IEnumerable<RecognitionResult> digits)
     {
         return string.Join("",
             digits.Select(g =>
                 g.Match(
                     rg => rg.DigitPrototype.Digit.ToString(),
-                    ug => "?")));
+                    _ => "?")));
     }
 }
