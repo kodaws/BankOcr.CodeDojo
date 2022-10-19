@@ -15,9 +15,9 @@ public class WhenValidatingAccountNumber : WhenUsingRecognizer
     public void ShouldDetectInvalidNumbers(string accountNumber, bool isValid)
     {
         var accNumber = accountNumber.Select(d => int.Parse(d.ToString()))
-            .Select(d => (AccountNumberValidator.InputGlyph)(new RecognizedGlyph(new DigitPrototype(d, "", 0), "")))
+            .Select(d => (RecognitionResult)(new RecognizedGlyph(new DigitPrototype(d, "", 0)))) //TODO: refactor
             .ToArray();
-        var validationResult = AccountNumberValidator.Validate(accNumber.ToArray());
+        var validationResult = AccountNumberValidator.Validate(accNumber);
         Assert.AreEqual(isValid, validationResult.IsT0);
     }
 }
