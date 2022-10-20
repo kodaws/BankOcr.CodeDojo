@@ -6,11 +6,11 @@ Solution for https://code.joejag.com/coding-dojo/bank-ocr/ coding dojo problem.
 # Description of operation
 
 ## Input format
-* Sample input, should produce `54?77630? ILL` response:![input format](docs/InputFormat.pgn)
+* Sample input, should produce `54?77630? ILL` response:![input format](docs/InputFormat.png)
 
 ## Recognition worfklow
 Implemented in BankOcr.Parser.RecognitionWorkflow, using several isolated stateless modules (processing stages). Few stages use [OneOf](https://github.com/mcintyre321/OneOf) (discriminated union) of possible outcomes to avoid exception handling and complex flow control:
-![input format](docs/RecognitionWorkflow.pgn)
+![input format](docs/RecognitionWorkflow.png)
 
 ### Stage 1 - Parsing text input into "glyphs"
 * Each 3x3 block of text (fourth line is empty) is converted into a string of length 9, without line breaks. E.g. number 0 produces ` _ | ||_| `.
