@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace BankOcr.Parser.TextParsing;
+﻿namespace BankOcr.Parser.TextParsing;
 
 public class GlyphEnumerator : IGlyphEnumerator
 {
@@ -11,16 +9,22 @@ public class GlyphEnumerator : IGlyphEnumerator
     {
         var noBreaks = input.ReplaceLineEndings("");
         
-        Debug.Assert(noBreaks.Length % NumCharsPerGlyph == 0); //TODO: improve with result?
-        
-        //TODO: refactor it all
+        if(noBreaks.Length % NumCharsPerGlyph != 0)
+            throw new Exception($"Invalid input length - {noBreaks.Length} is not divisible by {NumCharsPerGlyph}");
+       
         var numGlyphs = noBreaks.Length / NumCharsPerGlyph;
-        //TODO: improve with explicit group key selector
-        return noBreaks
-            .Select((c, i) => new { Character = c, CharPos = i }) //TODO: maybe something exists already
-            .GroupBy(g => g.CharPos / NumGlyphCharsPerLine)
-            .Select((line, i) => new { Line = line.Select(l => l.Character), GlyphPos = i % numGlyphs })
-            .GroupBy(lineWithPos => lineWithPos.GlyphPos)
-            .Select(g => new string(g.SelectMany(v => v.Line).ToArray()));
+        return
+            noBreaks
+                .Select((c, i) => new {Character = c, CharPos = i})
+                .GroupBy(g => g.CharPos / NumGlyphCharsPerLine) //reproduce lines, TODO: refactor unnecessary steps
+                .Select((line, i) =>
+                    new
+                    {
+                        Line = line.Select(l => l.Character),
+                        DigitPos = i % numGlyphs
+                    }) //assign digit position
+                .GroupBy(lineWithPos => lineWithPos.DigitPos) //group by digit number
+                .Select(g =>
+                    string.Concat(g.SelectMany(v => v.Line))); //compact grouped lines into glyphs
     }
 }
