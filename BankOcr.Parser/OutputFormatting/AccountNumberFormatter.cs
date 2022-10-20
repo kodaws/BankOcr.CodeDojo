@@ -1,34 +1,25 @@
-﻿using BankOcr.Parser.Recognition;
+﻿using BankOcr.Parser.Validation;
 
 namespace BankOcr.Parser.OutputFormatting;
 
-public static class AccountNumberFormatter
+public class AccountNumberFormatter : IAccountNumberFormatter
 {
-    public static string Format(Validation.AccountNumber validatedAccount)
+    public string Format(AccountNumber account)
     {
-        return validatedAccount.Match(
+        return account.Match(
             van => van.RecognitionResults.FormatAccountDigits(),
             inv => inv.Match(
                 invLen => invLen.RecognitionResults.FormatAccountDigits() + " LEN",
                 invChk => invChk.RecognitionResults.FormatAccountDigits() + " ERR",
-                unkChars => unkChars.RecognitionResults.FormatAccountDigits() + " ILL",
-                ambNumbers =>
-                    (ambNumbers.ValidCandidates.Length == 1) ?
-                        (ambNumbers.ValidCandidates.First().RecognitionResults.FormatAccountDigits()) :
-                        (ambNumbers.OriginalNumber.Match(
-                                invLen => invLen.RecognitionResults,
-                                invChecksum => invChecksum.RecognitionResults, 
-                                unrecChars => unrecChars.RecognitionResults, 
-                                amb => Array.Empty<RecognitionResult>()).FormatAccountDigits() + 
-                                $" AMB [{string.Join(", ", ambNumbers.ValidCandidates.Select(c => $"'{c.RecognitionResults.FormatAccountDigits()}'"))}]"))); 
-    }
-
-    private static string FormatAccountDigits(this IEnumerable<Recognition.RecognitionResult> digits)
-    {
-        return string.Join("",
-            digits.Select(g =>
-                g.Match(
-                    rg => rg.DigitPrototype.Digit.ToString(),
-                    _ => "?")));
+                unkChars => unkChars.RecognitionResults.FormatAccountDigits() + " ILL"
+                ),
+            ambNumber =>
+                ambNumber.ValidCandidates.Length == 1 ?
+                    ambNumber.ValidCandidates.First().RecognitionResults.FormatAccountDigits() :
+                    ambNumber.OriginalNumber.Match(
+                        invLen => invLen.RecognitionResults,
+                        invChecksum => invChecksum.RecognitionResults, 
+                        unkChars => unkChars.RecognitionResults).FormatAccountDigits() + 
+                    $" AMB [{string.Join(", ", ambNumber.ValidCandidates.Select(c => $"'{c.RecognitionResults.FormatAccountDigits()}'"))}]"); 
     }
 }

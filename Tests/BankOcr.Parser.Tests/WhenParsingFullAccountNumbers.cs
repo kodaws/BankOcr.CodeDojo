@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
-using BankOcr.Parser.TextParsing;
+using BankOcr.Parser.Tests.BaseTestSetup;
+
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;
@@ -54,16 +55,13 @@ public class WhenParsingFullAccountNumbers : WhenUsingRecognizer
   ||_  _|  | _||_|  ||_| _|", "123456789")]
     public void ShouldParseTheNumber(string input, string expectedResult)
     {
-        var digits = input.EnumerateGlyphs();
-        var accountNumber = digits
-            .Select(Recognizer.Recognize)
-            .Select(d => d.AsT0.DigitPrototype.Digit);
+        var accountNumber = 
+            GlyphEnumerator
+                .EnumerateGlyphs(input)
+                .Select(Recognizer.Recognize)
+                .Select(d => d.AsT0.DigitPrototype.Digit);
         
-        var accountNumText = accountNumber.Aggregate(new StringBuilder(), (state, d) =>
-        {
-            state.Append(d);
-            return state;
-        });
+        var accountNumText = new string(accountNumber.Select(d => (char)(d + '0')).ToArray());
         Assert.AreEqual(expectedResult, accountNumText.ToString());
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using BankOcr.Parser.Models;
 using BankOcr.Parser.Recognition;
-using BankOcr.Parser.Validation;
+using BankOcr.Parser.Tests.BaseTestSetup;
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;
 
 [TestFixture]
-public class WhenValidatingAccountNumber
+public class WhenValidatingAccountNumber : WhenUsingValidator
 {
     [TestCase("711111111", true)]
     [TestCase("123456789", true)]
@@ -15,12 +15,16 @@ public class WhenValidatingAccountNumber
     [TestCase("888888888", false)]
     [TestCase("490067715", false)]
     [TestCase("012345678", false)]
-    public void ShouldDetectInvalidNumbers(string accountNumber, bool isValid)
+    public void ShouldDetectInvalidNumbers(string accountDigits, bool isValid)
     {
-        var accNumber = accountNumber.Select(d => int.Parse(d.ToString()))
-            .Select(d => (Recognition.RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "", 0))) //TODO: refactor
-            .ToArray();
-        var validationResult = AccountNumberValidator.Validate(accNumber);
+        var validationResult = AccountNumberValidator.Validate(ConvertFromLiteral(accountDigits));
         Assert.AreEqual(isValid, validationResult.IsT0);
+    }
+
+    private RecognitionResult[] ConvertFromLiteral(string accountDigits)
+    {
+        return accountDigits.Select(d => int.Parse(d.ToString()))
+            .Select(d => (RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "ignored", 0)))
+            .ToArray();
     }
 }

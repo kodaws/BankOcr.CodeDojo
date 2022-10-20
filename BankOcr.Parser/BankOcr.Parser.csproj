@@ -16,12 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Initialization" />
       <Folder Include="Models" />
-      <Folder Include="OutputFormatting" />
-      <Folder Include="Recognition" />
-      <Folder Include="TextParsing" />
-      <Folder Include="Validation" />
     </ItemGroup>
 
 </Project>

@@ -1,20 +1,24 @@
 ﻿using BankOcr.Parser.Models;
-using BankOcr.Parser.Recognition;
 using BankOcr.Parser.TextParsing;
-
 namespace BankOcr.Parser.Initialization;
 
-public static class DigitPrototypeFactory
+public class DigitPrototypeFactory : IDigitPrototypeFactory
 {
-    public static IEnumerable<DigitPrototype> BuildPrototypes()
+    private readonly IGlyphEnumerator _glyphEnumerator;
+
+    public DigitPrototypeFactory(IGlyphEnumerator glyphEnumerator)
+    {
+        _glyphEnumerator = glyphEnumerator;
+    }
+    
+    public IEnumerable<DigitPrototype> BuildPrototypes()
     {
         return
-            @"
+            _glyphEnumerator.EnumerateGlyphs(@"
  _     _  _     _  _  _  _  _ 
 | |  | _| _||_||_ |_   ||_||_|
-|_|  ||_  _|  | _||_|  ||_| _|"
-                .EnumerateGlyphs()
-                .Select((g, i) =>
-                    new DigitPrototype(i, g, g.Count(c => !char.IsWhiteSpace(c))));
+|_|  ||_  _|  | _||_|  ||_| _|")
+                .Select((glyph, i) =>
+                    new DigitPrototype(i, glyph, glyph.Count(c => !char.IsWhiteSpace(c))));
     }
 }

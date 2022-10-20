@@ -3,7 +3,7 @@ using OneOf;
 
 namespace BankOcr.Parser.Validation;
 
-public record UnrecognizedCharacters(RecognitionResult[] RecognitionResults);
+public record UnrecognizedDigits(RecognitionResult[] RecognitionResults);
 
 public record InvalidChecksum(RecognitionResult[] RecognitionResults);
 
@@ -14,8 +14,7 @@ public record ValidAccountNumber(RecognitionResult[] RecognitionResults);
 public record AmbiguousAccountNumber(InvalidAccountNumber OriginalNumber, ValidAccountNumber[] ValidCandidates);
 
 [GenerateOneOf]
-public partial class InvalidAccountNumber : OneOfBase<InvalidAccountNumberLength, InvalidChecksum,
-    UnrecognizedCharacters, AmbiguousAccountNumber> {}
+public partial class InvalidAccountNumber : OneOfBase<InvalidAccountNumberLength, InvalidChecksum, UnrecognizedDigits> {}
 
 [GenerateOneOf]
-public partial class AccountNumber : OneOfBase<ValidAccountNumber, InvalidAccountNumber> { }
+public partial class AccountNumber : OneOfBase<ValidAccountNumber, InvalidAccountNumber, AmbiguousAccountNumber> { }

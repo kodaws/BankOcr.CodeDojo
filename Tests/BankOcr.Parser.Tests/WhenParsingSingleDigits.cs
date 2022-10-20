@@ -1,3 +1,4 @@
+using BankOcr.Parser.Tests.BaseTestSetup;
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;

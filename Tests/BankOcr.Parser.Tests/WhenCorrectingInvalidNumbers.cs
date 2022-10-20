@@ -1,13 +1,9 @@
-﻿using System.Linq;
-using BankOcr.Parser.ChecksumCorrection;
-using BankOcr.Parser.OutputFormatting;
-using BankOcr.Parser.TextParsing;
-using BankOcr.Parser.Validation;
+﻿using BankOcr.Parser.Tests.BaseTestSetup;
 using NUnit.Framework;
 
 namespace BankOcr.Parser.Tests;
 
-public class WhenCorrectingInvalidNumbers : WhenUsingRecognizer
+public class WhenCorrectingInvalidNumbers : WhenUsingFullWorkflow
 {
     [TestCase(@"
                            
@@ -59,19 +55,7 @@ public class WhenCorrectingInvalidNumbers : WhenUsingRecognizer
   | _||_||_||_|  |  |  | _|", "490867715")]
     public void ShouldConvertToValidAccountWhenPossible(string input, string expectedResult)
     {
-        var digits = input.EnumerateGlyphs();
-        var accountNumber = digits
-            .Select(Recognizer.Recognize)
-            .ToArray();
-        
-        var validationResult = AccountNumberValidator.Validate(accountNumber);
-        var corrector = new AccountNumberCorrector(Prototypes);
-
-        var result = validationResult.Match(
-            val => val,
-            corrector.TryCorrect);
-
-        var actual = AccountNumberFormatter.Format(result);
-        Assert.AreEqual(expectedResult, actual);
+        var result = Workflow.Run(input);
+        Assert.AreEqual(expectedResult, result);
     }   
 }

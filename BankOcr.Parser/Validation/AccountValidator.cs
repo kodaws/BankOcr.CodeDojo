@@ -1,16 +1,18 @@
-﻿namespace BankOcr.Parser.Validation;
+﻿using BankOcr.Parser.Recognition;
 
-public static class AccountNumberValidator
+namespace BankOcr.Parser.Validation;
+
+public class AccountNumberValidator : IAccountNumberValidator
 {
     private const int AccountNumberLength = 9;
     
-    public static AccountNumber Validate(Recognition.RecognitionResult[] accountDigits)
+    public AccountNumber Validate(RecognitionResult[] accountDigits)
     {
         if (accountDigits.Length != AccountNumberLength)
-            return new InvalidAccountNumber(new InvalidAccountNumberLength(accountDigits));
+            return (InvalidAccountNumber)new InvalidAccountNumberLength(accountDigits);
 
         if (accountDigits.Any(g => g.IsT1))
-            return new InvalidAccountNumber(new UnrecognizedCharacters(accountDigits));
+            return (InvalidAccountNumber)new UnrecognizedDigits(accountDigits);
         
         var checksum =
             accountDigits
@@ -20,7 +22,7 @@ public static class AccountNumberValidator
                         _ => 0)).Sum();
 
         if (checksum % 11 != 0)
-            return new InvalidAccountNumber(new InvalidChecksum(accountDigits));
+            return (InvalidAccountNumber)new InvalidChecksum(accountDigits);
 
         return new ValidAccountNumber(accountDigits);
     }
