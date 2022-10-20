@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D8AE5CC4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Parser.Tests", "Tests\BankOcr.Parser.Tests\BankOcr.Parser.Tests.csproj", "{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Ocr.Integration.Tests", "Tests\Bank.Ocr.Integration.Tests\Bank.Ocr.Integration.Tests.csproj", "{CCFDC90A-37FD-456D-B933-2477B652D35C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Integration.Tests", "Tests\BankOcr.Integration.Tests\BankOcr.Integration.Tests.csproj", "{CCFDC90A-37FD-456D-B933-2477B652D35C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

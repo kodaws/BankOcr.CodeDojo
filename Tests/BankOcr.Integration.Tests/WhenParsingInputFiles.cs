@@ -1,7 +1,7 @@
 using BankOcr.Cli;
 using NUnit.Framework;
 
-namespace Bank.Ocr.Integration.Tests;
+namespace BankOcr.Integration.Tests;
 
 public class WhenParsingInputFiles
 {
