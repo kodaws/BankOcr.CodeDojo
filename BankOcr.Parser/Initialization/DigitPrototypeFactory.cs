@@ -11,7 +11,7 @@ public class DigitPrototypeFactory : IDigitPrototypeFactory
         _glyphEnumerator = glyphEnumerator;
     }
     
-    public IEnumerable<DigitPrototype> BuildPrototypes()
+    public DigitPrototype[] BuildPrototypes()
     {
         return
             _glyphEnumerator.EnumerateGlyphs(@"
@@ -19,6 +19,7 @@ public class DigitPrototypeFactory : IDigitPrototypeFactory
 | |  | _| _||_||_ |_   ||_||_|
 |_|  ||_  _|  | _||_|  ||_| _|")
                 .Select((glyph, i) =>
-                    new DigitPrototype(i, glyph, glyph.Count(c => !char.IsWhiteSpace(c))));
+                    new DigitPrototype(i, glyph, glyph.Count(c => !char.IsWhiteSpace(c))))
+                .ToArray();
     }
 }

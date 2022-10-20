@@ -20,6 +20,11 @@ public class WhenFormattingResults : WhenUsingValidator
     _  _     _  _  _  _  _ 
   | _| _||_| _ |_   ||_||_|
   ||_  _|  | _||_|  ||_| _ ", "1234?678? ILL")]
+    
+    [TestCase( @"
+ _     _  _  _  _  _  _  _ 
+|_ |_||    |  ||_  _|| | _ 
+ _|  ||_|  |  ||_| _||_| _|", "54?77630? ILL")]
     public void ShouldWritePartialMatchAndResult(string input, string expectedResult)
     {
         var accountNumber = 

@@ -21,7 +21,7 @@ public class WhenValidatingAccountNumber : WhenUsingValidator
         Assert.AreEqual(isValid, validationResult.IsT0);
     }
 
-    private RecognitionResult[] ConvertFromLiteral(string accountDigits)
+    private static RecognitionResult[] ConvertFromLiteral(string accountDigits)
     {
         return accountDigits.Select(d => int.Parse(d.ToString()))
             .Select(d => (RecognitionResult)new RecognizedGlyph(new DigitPrototype(d, "ignored", 0)))

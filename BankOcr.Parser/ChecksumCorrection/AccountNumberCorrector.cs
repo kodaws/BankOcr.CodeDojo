@@ -38,7 +38,9 @@ public class AccountNumberCorrector : IAccountNumberCorrector
                     ord.RecognitionResults.Select((d, i) => d.AsT0.DigitPrototype.Digit * Math.Pow(10, 9-i)).Sum()
                 )
                 .ToArray();
-
+        if (!validAlternatives.Any())
+            return (InvalidAccountNumber)invalidChecksum;
+        
         return new AmbiguousAccountNumber(invalidChecksum, validAlternatives);
     }
 

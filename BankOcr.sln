@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D8AE5CC4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankOcr.Parser.Tests", "Tests\BankOcr.Parser.Tests\BankOcr.Parser.Tests.csproj", "{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Ocr.Integration.Tests", "Tests\Bank.Ocr.Integration.Tests\Bank.Ocr.Integration.Tests.csproj", "{CCFDC90A-37FD-456D-B933-2477B652D35C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,7 +28,13 @@ Global
 		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCFDC90A-37FD-456D-B933-2477B652D35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCFDC90A-37FD-456D-B933-2477B652D35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCFDC90A-37FD-456D-B933-2477B652D35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCFDC90A-37FD-456D-B933-2477B652D35C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{CCFDC90A-37FD-456D-B933-2477B652D35C} = {D8AE5CC4-E97B-4A98-A61E-80A0925A8C8E}
+		{51DC2CB7-6F7D-49E4-96F4-E48B1488E24D} = {D8AE5CC4-E97B-4A98-A61E-80A0925A8C8E}
 	EndGlobalSection
 EndGlobal

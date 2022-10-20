@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text;
 using BankOcr.Parser.Tests.BaseTestSetup;
 
 using NUnit.Framework;
@@ -62,6 +61,6 @@ public class WhenParsingFullAccountNumbers : WhenUsingRecognizer
                 .Select(d => d.AsT0.DigitPrototype.Digit);
         
         var accountNumText = new string(accountNumber.Select(d => (char)(d + '0')).ToArray());
-        Assert.AreEqual(expectedResult, accountNumText.ToString());
+        Assert.AreEqual(expectedResult, accountNumText);
     }
 }

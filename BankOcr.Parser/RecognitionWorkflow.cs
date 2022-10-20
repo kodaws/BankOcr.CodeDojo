@@ -37,9 +37,11 @@ public class RecognitionWorkflow
             .ToArray();
             
          return 
-             _validator.Validate(recognitionResult).Match(
-                 ok => _formatter.Format(ok),
-                 invalid => _formatter.Format(_corrector.TryCorrect(invalid)),
-                 amb => _formatter.Format(amb));
+             _validator
+                 .Validate(recognitionResult)
+                 .Match(
+                    ok => _formatter.Format(ok),
+                    invalid => _formatter.Format(_corrector.TryCorrect(invalid)),
+                    amb => _formatter.Format(amb));
     }
 }

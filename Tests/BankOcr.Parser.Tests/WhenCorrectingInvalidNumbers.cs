@@ -53,6 +53,10 @@ public class WhenCorrectingInvalidNumbers : WhenUsingFullWorkflow
     _  _  _  _  _  _     _ 
 |_||_|| ||_||_   |  |  | _ 
   | _||_||_||_|  |  |  | _|", "490867715")]
+    [TestCase( @"
+ _     _  _  _  _  _  _  _ 
+|_ |_||    |  ||_  _|| | _ 
+ _|  ||_|  |  ||_| _||_| _|", "54?77630? ILL")]
     public void ShouldConvertToValidAccountWhenPossible(string input, string expectedResult)
     {
         var result = Workflow.Run(input);
